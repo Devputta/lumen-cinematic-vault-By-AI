@@ -63,12 +63,12 @@ function Header({
           <Link to="/" className="transition-colors hover:text-cream">
             Home
           </Link>
-          <Link hash="features" className="transition-colors hover:text-cream">
+          <a href="#features" className="transition-colors hover:text-cream">
             Features
-          </Link>
-          <Link hash="privacy" className="transition-colors hover:text-cream">
+          </a>
+          <a href="#privacy" className="transition-colors hover:text-cream">
             Privacy
-          </Link>
+          </a>
           <Link to="/login" className="transition-colors hover:text-cream">
             Sign In
           </Link>
