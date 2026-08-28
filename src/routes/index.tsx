@@ -123,20 +123,20 @@ function Header({
             >
               Home
             </Link>
-            <Link
-              hash="features"
+            <a
+              href="#features"
               onClick={() => setMobileMenuOpen(false)}
               className="transition-colors hover:text-cream"
             >
               Features
-            </Link>
-            <Link
-              hash="privacy"
+            </a>
+            <a
+              href="#privacy"
               onClick={() => setMobileMenuOpen(false)}
               className="transition-colors hover:text-cream"
             >
               Privacy
-            </Link>
+            </a>
             <Link
               to="/login"
               onClick={() => setMobileMenuOpen(false)}
@@ -185,12 +185,12 @@ function HeroSection() {
             >
               Enter your space
             </Link>
-            <Link
-              hash="features"
+            <a
+              href="#features"
               className="rounded-full px-6 py-3 text-sm font-medium text-cream ring-1 ring-line transition-colors hover:ring-cream/40"
             >
               Explore features
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -333,9 +333,9 @@ function Footer() {
             <p className="mt-2 text-sm text-cream-muted">Cine Vault Gallery</p>
           </div>
           <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-cream-muted">
-            <Link hash="privacy" className="transition-colors hover:text-cream">
+            <a href="#privacy" className="transition-colors hover:text-cream">
               Privacy
-            </Link>
+            </a>
             <Link to="/login" className="transition-colors hover:text-cream">
               Terms
             </Link>
