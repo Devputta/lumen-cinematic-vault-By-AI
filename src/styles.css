@@ -59,6 +59,19 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Lumen cinematic palette */
+  --color-ink: #0b0b0d;
+  --color-ink-2: #131215;
+  --color-panel: #1a191d;
+  --color-line: #2a2830;
+  --color-cream: #efe9dd;
+  --color-cream-muted: #8b857c;
+  --color-amber: #d3a26a;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -141,4 +154,36 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+/* Cinematic entrance animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.animate-fade-up-1 {
+  animation-delay: 0.05s;
+}
+
+.animate-fade-up-2 {
+  animation-delay: 0.18s;
+}
+
+.animate-fade-up-3 {
+  animation-delay: 0.32s;
+}
+
+html {
+  scroll-behavior: smooth;
 }
