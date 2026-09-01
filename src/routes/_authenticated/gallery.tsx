@@ -27,11 +27,11 @@ type MediaRow = {
 
 export const Route = createFileRoute("/_authenticated/gallery")({
   ssr: false,
-  validateSearch: (search: Record<string, unknown>) => ({
-    filter: (FILTERS as readonly string[]).includes(String(search.filter))
-      ? (search.filter as Filter)
+  validateSearch: (search: Record<string, unknown>): { filter?: Filter; q?: string } => ({
+    filter: (FILTERS as readonly string[]).includes(String(search['filter']))
+      ? (search['filter'] as Filter)
       : ("all" as Filter),
-    q: typeof search.q === "string" ? search.q : "",
+    q: typeof search['q'] === "string" ? (search['q'] as string) : "",
   }),
   head: () => ({
     meta: [
@@ -51,7 +51,9 @@ export const Route = createFileRoute("/_authenticated/gallery")({
 });
 
 function GalleryPage() {
-  const { filter, q } = Route.useSearch();
+  const search_ = Route.useSearch();
+  const filter: Filter = search_.filter ?? "all";
+  const q = search_.q ?? "";
   const navigate = useNavigate({ from: "/gallery" });
   const queryClient = useQueryClient();
   const [term, setTerm] = useState(q);
@@ -161,7 +163,7 @@ function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-ink">
-      <AppHeader displayName={profile.data?.name ?? null} avatarUrl={profile.data?.avatar_url} />
+      <AppHeader displayName={profile.data?.name ?? null} avatarUrl={profile.data?.avatar_url ?? null} />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <section>

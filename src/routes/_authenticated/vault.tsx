@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/vault")({
     >
       <Link
         to="/gallery"
-        search={{ filter: "locked", q: "" }}
+        search={{ filter: "locked" as const, q: "" }}
         className="mt-6 inline-flex rounded-full bg-amber px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-[#e0b47e]"
       >
         Open locked filter
