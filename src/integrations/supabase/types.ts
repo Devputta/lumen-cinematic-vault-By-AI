@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      collections: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      media_items: {
+        Row: {
+          captured_at: string | null
+          collection_id: string | null
+          created_at: string
+          duration_seconds: number | null
+          filename: string
+          height: number | null
+          id: string
+          is_favorite: boolean
+          is_locked: boolean
+          media_type: Database["public"]["Enums"]["media_type"]
+          media_url: string | null
+          tags: string[]
+          thumbnail_url: string
+          title: string
+          updated_at: string
+          user_id: string
+          width: number | null
+        }
+        Insert: {
+          captured_at?: string | null
+          collection_id?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          filename: string
+          height?: number | null
+          id?: string
+          is_favorite?: boolean
+          is_locked?: boolean
+          media_type?: Database["public"]["Enums"]["media_type"]
+          media_url?: string | null
+          tags?: string[]
+          thumbnail_url: string
+          title: string
+          updated_at?: string
+          user_id: string
+          width?: number | null
+        }
+        Update: {
+          captured_at?: string | null
+          collection_id?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          filename?: string
+          height?: number | null
+          id?: string
+          is_favorite?: boolean
+          is_locked?: boolean
+          media_type?: Database["public"]["Enums"]["media_type"]
+          media_url?: string | null
+          tags?: string[]
+          thumbnail_url?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_items_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -49,7 +147,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      media_type: "photo" | "video"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -176,6 +274,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      media_type: ["photo", "video"],
+    },
   },
 } as const
