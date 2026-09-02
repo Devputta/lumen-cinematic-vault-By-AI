@@ -23,6 +23,7 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedVaultRouteImport } from './routes/_authenticated/vault'
 import { Route as AuthenticatedCollectionsIndexRouteImport } from './routes/_authenticated/collections.index'
+import { Route as AuthenticatedCollectionsIdRouteImport } from './routes/_authenticated/collections.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -96,6 +97,12 @@ const AuthenticatedCollectionsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedCollectionsRoute,
   } as any)
+const AuthenticatedCollectionsIdRoute =
+  AuthenticatedCollectionsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedCollectionsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/vault': typeof AuthenticatedVaultRoute
+  '/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/collections/': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/vault': typeof AuthenticatedVaultRoute
+  '/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/collections': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRoutesById {
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/vault': typeof AuthenticatedVaultRoute
+  '/_authenticated/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/_authenticated/collections/': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRouteTypes {
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/vault'
+    | '/collections/$id'
     | '/collections/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/vault'
+    | '/collections/$id'
     | '/collections'
   id:
     | '__root__'
@@ -188,6 +200,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/settings'
     | '/_authenticated/vault'
+    | '/_authenticated/collections/$id'
     | '/_authenticated/collections/'
   fileRoutesById: FileRoutesById
 }
@@ -300,15 +313,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCollectionsIndexRouteImport
       parentRoute: typeof AuthenticatedCollectionsRoute
     }
+    '/_authenticated/collections/$id': {
+      id: '/_authenticated/collections/$id'
+      path: '/$id'
+      fullPath: '/collections/$id'
+      preLoaderRoute: typeof AuthenticatedCollectionsIdRouteImport
+      parentRoute: typeof AuthenticatedCollectionsRoute
+    }
   }
 }
 
 interface AuthenticatedCollectionsRouteChildren {
+  AuthenticatedCollectionsIdRoute: typeof AuthenticatedCollectionsIdRoute
   AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
 }
 
 const AuthenticatedCollectionsRouteChildren: AuthenticatedCollectionsRouteChildren =
   {
+    AuthenticatedCollectionsIdRoute: AuthenticatedCollectionsIdRoute,
     AuthenticatedCollectionsIndexRoute: AuthenticatedCollectionsIndexRoute,
   }
 
