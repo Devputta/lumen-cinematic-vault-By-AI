@@ -11,7 +11,7 @@ import {
   MoreVertical,
   Pencil,
   Trash2,
-  Unlock,
+  X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/lumen/AppHeader";
@@ -648,10 +648,7 @@ export function Modal({
             aria-label="Close"
             className="rounded-full border border-line p-2 text-cream-muted transition-colors hover:text-cream"
           >
-            <Unlock className="hidden" />
-            <span aria-hidden="true" className="block size-4 text-center leading-4">
-              ×
-            </span>
+            <X className="size-4" />
           </button>
         </div>
         {children}

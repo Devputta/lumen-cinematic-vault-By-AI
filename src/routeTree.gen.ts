@@ -16,7 +16,6 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
-import { Route as AuthenticatedCollectionsRouteImport } from './routes/_authenticated/collections'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedGalleryRouteImport } from './routes/_authenticated/gallery'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -60,12 +59,6 @@ const AuthenticatedChangePasswordRoute =
     path: '/change-password',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedCollectionsRoute =
-  AuthenticatedCollectionsRouteImport.update({
-    id: '/collections',
-    path: '/collections',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
@@ -93,15 +86,15 @@ const AuthenticatedVaultRoute = AuthenticatedVaultRouteImport.update({
 } as any)
 const AuthenticatedCollectionsIndexRoute =
   AuthenticatedCollectionsIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedCollectionsRoute,
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCollectionsIdRoute =
   AuthenticatedCollectionsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
-    getParentRoute: () => AuthenticatedCollectionsRoute,
+    id: '/collections/$id',
+    path: '/collections/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -111,7 +104,6 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
-  '/collections': typeof AuthenticatedCollectionsRouteWithChildren
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/gallery': typeof AuthenticatedGalleryRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -144,7 +136,6 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
-  '/_authenticated/collections': typeof AuthenticatedCollectionsRouteWithChildren
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/gallery': typeof AuthenticatedGalleryRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -162,7 +153,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/change-password'
-    | '/collections'
     | '/favorites'
     | '/gallery'
     | '/profile'
@@ -194,7 +184,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/_authenticated/change-password'
-    | '/_authenticated/collections'
     | '/_authenticated/favorites'
     | '/_authenticated/gallery'
     | '/_authenticated/profile'
@@ -264,13 +253,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChangePasswordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/collections': {
-      id: '/_authenticated/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof AuthenticatedCollectionsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/favorites': {
       id: '/_authenticated/favorites'
       path: '/favorites'
@@ -308,55 +290,41 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/collections/': {
       id: '/_authenticated/collections/'
-      path: '/'
+      path: '/collections'
       fullPath: '/collections/'
       preLoaderRoute: typeof AuthenticatedCollectionsIndexRouteImport
-      parentRoute: typeof AuthenticatedCollectionsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/collections/$id': {
       id: '/_authenticated/collections/$id'
-      path: '/$id'
+      path: '/collections/$id'
       fullPath: '/collections/$id'
       preLoaderRoute: typeof AuthenticatedCollectionsIdRouteImport
-      parentRoute: typeof AuthenticatedCollectionsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
-interface AuthenticatedCollectionsRouteChildren {
-  AuthenticatedCollectionsIdRoute: typeof AuthenticatedCollectionsIdRoute
-  AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
-}
-
-const AuthenticatedCollectionsRouteChildren: AuthenticatedCollectionsRouteChildren =
-  {
-    AuthenticatedCollectionsIdRoute: AuthenticatedCollectionsIdRoute,
-    AuthenticatedCollectionsIndexRoute: AuthenticatedCollectionsIndexRoute,
-  }
-
-const AuthenticatedCollectionsRouteWithChildren =
-  AuthenticatedCollectionsRoute._addFileChildren(
-    AuthenticatedCollectionsRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedChangePasswordRoute: typeof AuthenticatedChangePasswordRoute
-  AuthenticatedCollectionsRoute: typeof AuthenticatedCollectionsRouteWithChildren
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedGalleryRoute: typeof AuthenticatedGalleryRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedVaultRoute: typeof AuthenticatedVaultRoute
+  AuthenticatedCollectionsIdRoute: typeof AuthenticatedCollectionsIdRoute
+  AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChangePasswordRoute: AuthenticatedChangePasswordRoute,
-  AuthenticatedCollectionsRoute: AuthenticatedCollectionsRouteWithChildren,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedGalleryRoute: AuthenticatedGalleryRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedVaultRoute: AuthenticatedVaultRoute,
+  AuthenticatedCollectionsIdRoute: AuthenticatedCollectionsIdRoute,
+  AuthenticatedCollectionsIndexRoute: AuthenticatedCollectionsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
