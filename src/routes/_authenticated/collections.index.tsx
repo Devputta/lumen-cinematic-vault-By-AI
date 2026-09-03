@@ -622,7 +622,7 @@ function CollectionForm({
   );
 }
 
-export function Modal({
+function Modal({
   title,
   children,
   onClose,
