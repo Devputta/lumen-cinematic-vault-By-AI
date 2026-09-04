@@ -20,6 +20,7 @@ import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedGalleryRouteImport } from './routes/_authenticated/gallery'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedUploadRouteImport } from './routes/_authenticated/upload'
 import { Route as AuthenticatedVaultRouteImport } from './routes/_authenticated/vault'
 import { Route as AuthenticatedCollectionsIndexRouteImport } from './routes/_authenticated/collections.index'
 import { Route as AuthenticatedCollectionsIdRouteImport } from './routes/_authenticated/collections.$id'
@@ -79,6 +80,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedUploadRoute = AuthenticatedUploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedVaultRoute = AuthenticatedVaultRouteImport.update({
   id: '/vault',
   path: '/vault',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof AuthenticatedGalleryRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/upload': typeof AuthenticatedUploadRoute
   '/vault': typeof AuthenticatedVaultRoute
   '/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/collections/': typeof AuthenticatedCollectionsIndexRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof AuthenticatedGalleryRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/upload': typeof AuthenticatedUploadRoute
   '/vault': typeof AuthenticatedVaultRoute
   '/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/collections': typeof AuthenticatedCollectionsIndexRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/_authenticated/gallery': typeof AuthenticatedGalleryRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/upload': typeof AuthenticatedUploadRoute
   '/_authenticated/vault': typeof AuthenticatedVaultRoute
   '/_authenticated/collections/$id': typeof AuthenticatedCollectionsIdRoute
   '/_authenticated/collections/': typeof AuthenticatedCollectionsIndexRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/profile'
     | '/settings'
+    | '/upload'
     | '/vault'
     | '/collections/$id'
     | '/collections/'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/profile'
     | '/settings'
+    | '/upload'
     | '/vault'
     | '/collections/$id'
     | '/collections'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/_authenticated/gallery'
     | '/_authenticated/profile'
     | '/_authenticated/settings'
+    | '/_authenticated/upload'
     | '/_authenticated/vault'
     | '/_authenticated/collections/$id'
     | '/_authenticated/collections/'
@@ -281,6 +293,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/upload': {
+      id: '/_authenticated/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof AuthenticatedUploadRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/vault': {
       id: '/_authenticated/vault'
       path: '/vault'
@@ -311,6 +330,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGalleryRoute: typeof AuthenticatedGalleryRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedUploadRoute: typeof AuthenticatedUploadRoute
   AuthenticatedVaultRoute: typeof AuthenticatedVaultRoute
   AuthenticatedCollectionsIdRoute: typeof AuthenticatedCollectionsIdRoute
   AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
@@ -322,6 +342,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGalleryRoute: AuthenticatedGalleryRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedUploadRoute: AuthenticatedUploadRoute,
   AuthenticatedVaultRoute: AuthenticatedVaultRoute,
   AuthenticatedCollectionsIdRoute: AuthenticatedCollectionsIdRoute,
   AuthenticatedCollectionsIndexRoute: AuthenticatedCollectionsIndexRoute,
