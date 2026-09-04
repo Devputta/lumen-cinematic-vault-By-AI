@@ -323,17 +323,6 @@ function MediaCard({
           </span>
         )}
 
-        <button
-          type="button"
-          onClick={onToggleFavorite}
-          aria-label={item.is_favorite ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-3 top-3 rounded-full bg-ink/70 p-2 backdrop-blur transition-colors hover:bg-ink"
-        >
-          <Heart
-            className={`size-4 ${item.is_favorite ? "fill-amber text-amber" : "text-cream"}`}
-          />
-        </button>
-
         <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-ink via-ink/70 to-transparent p-3 pt-10 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           <p className="truncate text-sm text-cream">{item.title || item.filename}</p>
           <p className="truncate text-xs text-cream-muted">
@@ -341,7 +330,17 @@ function MediaCard({
           </p>
         </div>
       </button>
+
+      <button
+        type="button"
+        onClick={onToggleFavorite}
+        aria-label={item.is_favorite ? "Remove from favorites" : "Add to favorites"}
+        className="absolute right-3 top-3 rounded-full bg-ink/70 p-2 backdrop-blur transition-colors hover:bg-ink"
+      >
+        <Heart className={`size-4 ${item.is_favorite ? "fill-amber text-amber" : "text-cream"}`} />
+      </button>
     </figure>
+
   );
 }
 
