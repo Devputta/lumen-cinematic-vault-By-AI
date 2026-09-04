@@ -4,6 +4,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import { Heart, ImagePlus, Lock, Play, Search, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/lumen/AppHeader";
+import { MediaViewer, useViewer } from "@/components/lumen/MediaViewer";
 
 const FILTERS = ["all", "photos", "videos", "favorites", "locked"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -18,6 +19,7 @@ type MediaRow = {
   duration_seconds: number | null;
   width: number | null;
   height: number | null;
+  media_url: string | null;
   tags: string[];
   is_favorite: boolean;
   is_locked: boolean;
@@ -94,7 +96,7 @@ function GalleryPage() {
       let query = supabase
         .from("media_items")
         .select(
-          "id, title, filename, media_type, thumbnail_url, duration_seconds, width, height, tags, is_favorite, is_locked, created_at, collections(name)",
+          "id, title, filename, media_type, thumbnail_url, media_url, duration_seconds, width, height, tags, is_favorite, is_locked, created_at, collections(name)",
         )
         .order("created_at", { ascending: false })
         .range(pageParam * PAGE_SIZE, pageParam * PAGE_SIZE + PAGE_SIZE - 1);
@@ -133,6 +135,8 @@ function GalleryPage() {
         m.tags.some((t) => t.toLowerCase().includes(search)),
     );
   }, [items, q]);
+
+  const viewer = useViewer(visible);
 
   const toggleFavorite = useMutation({
     mutationFn: async ({ id, next }: { id: string; next: boolean }) => {
@@ -244,6 +248,7 @@ function GalleryPage() {
                 <MediaCard
                   key={item.id}
                   item={item}
+                  onOpen={() => viewer.open(item.id)}
                   onToggleFavorite={() =>
                     toggleFavorite.mutate({ id: item.id, next: !item.is_favorite })
                   }
@@ -259,15 +264,29 @@ function GalleryPage() {
           </>
         )}
       </main>
+
+      {viewer.isOpen && (
+        <MediaViewer
+          items={visible}
+          index={viewer.index}
+          onIndexChange={viewer.setIndex}
+          onClose={viewer.close}
+          onToggleFavorite={(m) =>
+            toggleFavorite.mutate({ id: m.id, next: !m.is_favorite })
+          }
+        />
+      )}
     </div>
   );
 }
 
 function MediaCard({
   item,
+  onOpen,
   onToggleFavorite,
 }: {
   item: MediaRow;
+  onOpen: () => void;
   onToggleFavorite: () => void;
 }) {
   const ratio =
@@ -275,7 +294,13 @@ function MediaCard({
 
   return (
     <figure className="group relative break-inside-avoid overflow-hidden rounded-xl border border-line bg-panel">
-      <div className="relative" style={{ aspectRatio: ratio }}>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`Open ${item.title || item.filename}`}
+        className="relative block w-full cursor-zoom-in text-left"
+        style={{ aspectRatio: ratio }}
+      >
         {item.is_locked ? (
           <div className="flex size-full flex-col items-center justify-center gap-2 bg-ink-2">
             <Lock className="size-6 text-amber" />
@@ -298,25 +323,24 @@ function MediaCard({
           </span>
         )}
 
-        <button
-          type="button"
-          onClick={onToggleFavorite}
-          aria-label={item.is_favorite ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-3 top-3 rounded-full bg-ink/70 p-2 backdrop-blur transition-colors hover:bg-ink"
-        >
-          <Heart
-            className={`size-4 ${item.is_favorite ? "fill-amber text-amber" : "text-cream"}`}
-          />
-        </button>
-
         <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-ink via-ink/70 to-transparent p-3 pt-10 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           <p className="truncate text-sm text-cream">{item.title || item.filename}</p>
           <p className="truncate text-xs text-cream-muted">
             {item.collections?.name ?? "Unsorted"}
           </p>
         </div>
-      </div>
+      </button>
+
+      <button
+        type="button"
+        onClick={onToggleFavorite}
+        aria-label={item.is_favorite ? "Remove from favorites" : "Add to favorites"}
+        className="absolute right-3 top-3 rounded-full bg-ink/70 p-2 backdrop-blur transition-colors hover:bg-ink"
+      >
+        <Heart className={`size-4 ${item.is_favorite ? "fill-amber text-amber" : "text-cream"}`} />
+      </button>
     </figure>
+
   );
 }
 
