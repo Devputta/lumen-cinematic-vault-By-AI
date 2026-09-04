@@ -220,7 +220,7 @@ function PhotoStage({
     setScale((s) => clamp(s * (e.deltaY > 0 ? 0.9 : 1.1), 1, 6));
   };
 
-  const dist = (t: TouchList) =>
+  const dist = (t: React.TouchList) =>
     Math.hypot(t[0]!.clientX - t[1]!.clientX, t[0]!.clientY - t[1]!.clientY);
 
   const onTouchStart = (e: React.TouchEvent) => {
