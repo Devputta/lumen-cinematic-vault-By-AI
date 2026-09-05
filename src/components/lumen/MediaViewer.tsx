@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { unlockMedia } from "@/lib/vault.functions";
+import { useSignedUrl } from "@/lib/storage";
 
 export type ViewerItem = {
   id: string;
@@ -68,10 +69,15 @@ export function MediaViewer({ items, index, onIndexChange, onClose, onToggleFavo
     else void el.requestFullscreen?.();
   };
 
+  const rawSource = item
+    ? (item.id in unlocked ? (unlocked[item.id] ?? null) : (item.media_url ?? null))
+    : null;
+  const source = useSignedUrl(rawSource);
+  const poster = useSignedUrl(item?.thumbnail_url ?? null);
+
   if (!item) return null;
 
   const isLocked = Boolean(item.is_locked) && !(item.id in unlocked);
-  const source = item.id in unlocked ? unlocked[item.id] : (item.media_url ?? null);
 
   return (
     <div
@@ -127,11 +133,11 @@ export function MediaViewer({ items, index, onIndexChange, onClose, onToggleFavo
             onUnlocked={(url) => setUnlocked((p) => ({ ...p, [item.id]: url }))}
           />
         ) : item.media_type === "video" ? (
-          <VideoStage key={item.id} src={source ?? item.thumbnail_url} poster={item.thumbnail_url} />
+          <VideoStage key={item.id} src={source ?? poster ?? ""} poster={poster ?? ""} />
         ) : (
           <PhotoStage
             key={item.id}
-            src={source ?? item.thumbnail_url}
+            src={source ?? poster ?? ""}
             alt={item.title || item.filename}
             onSwipeLeft={goNext}
             onSwipeRight={goPrev}
