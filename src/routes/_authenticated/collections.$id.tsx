@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Check, Images, Lock, LockOpen, Play, Plus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/lumen/AppHeader";
+import { StorageImage } from "@/components/lumen/StorageImage";
 
 type MediaRow = {
   id: string;
@@ -240,11 +241,9 @@ function CollectionDetailPage() {
                           <Lock className="size-5 text-amber" />
                         </div>
                       ) : (
-                        <img
-                          src={m.thumbnail_url}
+                        <StorageImage
+                          path={m.thumbnail_url}
                           alt={m.title || m.filename}
-                          loading="lazy"
-                          decoding="async"
                           className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                         />
                       )}
@@ -321,10 +320,9 @@ function CollectionDetailPage() {
                           <Lock className="size-5 text-amber" />
                         </div>
                       ) : (
-                        <img
-                          src={m.thumbnail_url}
+                        <StorageImage
+                          path={m.thumbnail_url}
                           alt={m.title || m.filename}
-                          loading="lazy"
                           className="size-full object-cover"
                         />
                       )}

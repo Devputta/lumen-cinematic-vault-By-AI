@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/lumen/AppHeader";
+import { StorageImage } from "@/components/lumen/StorageImage";
 
 type CollectionRow = {
   id: string;
@@ -341,11 +342,9 @@ function CollectionCard({
             </span>
           </div>
         ) : collection.cover_url ? (
-          <img
-            src={collection.cover_url}
+          <StorageImage
+            path={collection.cover_url}
             alt={collection.name}
-            loading="lazy"
-            decoding="async"
             className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
