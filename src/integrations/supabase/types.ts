@@ -14,6 +14,73 @@ export type Database = {
   }
   public: {
     Tables: {
+      collection_locks: {
+        Row: {
+          collection_id: string
+          created_at: string
+          failed_attempts: number
+          locked_until: string | null
+          pin_hash: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string
+          failed_attempts?: number
+          locked_until?: string | null
+          pin_hash: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string
+          failed_attempts?: number
+          locked_until?: string | null
+          pin_hash?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_locks_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: true
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collection_unlocks: {
+        Row: {
+          collection_id: string
+          created_at: string
+          expires_at: string
+          user_id: string
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string
+          expires_at: string
+          user_id: string
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string
+          expires_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_unlocks_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       collections: {
         Row: {
           cover_url: string | null
@@ -22,6 +89,7 @@ export type Database = {
           id: string
           is_hidden: boolean
           is_locked: boolean
+          is_secret: boolean
           name: string
           updated_at: string
           user_id: string
@@ -33,6 +101,7 @@ export type Database = {
           id?: string
           is_hidden?: boolean
           is_locked?: boolean
+          is_secret?: boolean
           name: string
           updated_at?: string
           user_id: string
@@ -44,6 +113,7 @@ export type Database = {
           id?: string
           is_hidden?: boolean
           is_locked?: boolean
+          is_secret?: boolean
           name?: string
           updated_at?: string
           user_id?: string
@@ -150,7 +220,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      collection_lock_status: {
+        Args: { _collection_id: string }
+        Returns: Json
+      }
+      owns_collection: { Args: { _collection_id: string }; Returns: boolean }
+      relock_collection: { Args: { _collection_id: string }; Returns: Json }
+      remove_collection_pin: {
+        Args: { _collection_id: string; _pin: string }
+        Returns: Json
+      }
+      set_collection_pin: {
+        Args: { _collection_id: string; _current_pin?: string; _pin: string }
+        Returns: Json
+      }
+      verify_collection_pin: {
+        Args: { _collection_id: string; _pin: string }
+        Returns: Json
+      }
     }
     Enums: {
       media_type: "photo" | "video"
