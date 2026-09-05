@@ -5,6 +5,7 @@ import { Heart, ImagePlus, Lock, Play, Search, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/lumen/AppHeader";
 import { MediaViewer, useViewer } from "@/components/lumen/MediaViewer";
+import { StorageImage } from "@/components/lumen/StorageImage";
 
 const FILTERS = ["all", "photos", "videos", "favorites", "locked"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -307,11 +308,9 @@ function MediaCard({
             <span className="text-[0.65rem] uppercase tracking-[0.3em] text-cream-muted">Locked</span>
           </div>
         ) : (
-          <img
-            src={item.thumbnail_url}
+          <StorageImage
+            path={item.thumbnail_url}
             alt={item.title || item.filename}
-            loading="lazy"
-            decoding="async"
             className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         )}
@@ -353,7 +352,7 @@ function EmptyLibrary() {
         Add your first photo or video and Lumen will stage it like cinema.
       </p>
       <Link
-        to="/collections"
+        to="/upload"
         className="mt-8 inline-flex rounded-full bg-amber px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-[#e0b47e]"
       >
         Upload your first memory

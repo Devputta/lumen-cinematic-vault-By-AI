@@ -9,6 +9,7 @@ const NAV = [
   { to: "/collections", label: "Collections" },
   { to: "/favorites", label: "Favorites" },
   { to: "/vault", label: "Vault" },
+  { to: "/upload", label: "Upload" },
 ] as const;
 
 export function AppHeader({

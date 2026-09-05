@@ -38,9 +38,9 @@ type QueueItem = {
   duration: number | null;
   progress: number;
   stage: Stage;
-  message?: string;
-  mediaPath?: string;
-  thumbPath?: string;
+  message?: string | undefined;
+  mediaPath?: string | undefined;
+  thumbPath?: string | undefined;
   title: string;
   collectionId: string;
   tags: string;
